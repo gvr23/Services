@@ -20,5 +20,19 @@ namespace WcfFichaMedica
          ResponseFormat = WebMessageFormat.Json,
          UriTemplate = "login")]
         DataResponse<LoginResponse> login(LoginRequest request);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+         RequestFormat = WebMessageFormat.Json,
+         ResponseFormat = WebMessageFormat.Json,
+         UriTemplate = "getEmployees")]
+        DataResponse<List<EmployeeResponse>> getEmployees(EmployeeRequest request);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+         RequestFormat = WebMessageFormat.Json,
+         ResponseFormat = WebMessageFormat.Json,
+         UriTemplate = "getMedicalFiles")]
+        DataResponse<List<MedicalFileHeaderResponse>> getMedicalFiles(MedicalFileRequest request);
     }
 }

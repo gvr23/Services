@@ -15,5 +15,15 @@ namespace BL
         {
             return new DA_Ficha().login(request);
         }
+
+        public DataResponse<List<EmployeeResponse>> getEmployees(EmployeeRequest request)
+        {
+            return new DA_Ficha().getEmployees(request);
+        }
+
+        public DataResponse<List<MedicalFileHeaderResponse>> getMedicalFiles(MedicalFileRequest request)
+        {
+            return new DA_Ficha().getMedicalFiles(request);
+        }
     }
 }

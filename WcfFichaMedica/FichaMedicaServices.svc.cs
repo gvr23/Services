@@ -19,6 +19,15 @@ namespace WcfFichaMedica
         {
             return new BL_Ficha().login(request);
         }
-        
+
+        public DataResponse<List<EmployeeResponse>> getEmployees(EmployeeRequest request)
+        {
+            return new BL_Ficha().getEmployees(request);   
+        }
+
+        public DataResponse<List<MedicalFileHeaderResponse>> getMedicalFiles(MedicalFileRequest request)
+        {
+            return new BL_Ficha().getMedicalFiles(request);
+        }
     }
 }
