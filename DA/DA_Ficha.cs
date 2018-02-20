@@ -271,6 +271,369 @@ namespace DA
         #endregion
         //evaluationsHeader
 
+        //showMedicFilePDF
+        public DataResponse<List<MedicFilePDFResponse>> showMedicFilePDF(MedicFilePDFRequest request)
+        {
+            DataResponse<List<MedicFilePDFResponse>> dataResponse = new DataResponse<List<MedicFilePDFResponse>>();
+            dataResponse.response = new GenericResponse();
+            List<MedicFilePDFResponse> medicFilePdfList = new List<MedicFilePDFResponse>();
+            IDataReader reader = null;
+
+            using (DataBase db = new DataBase())
+                try
+                {
+                    db.ProcedureName = "FM_ObtieneDatosFichaMedica_PDF";
+                    db.AddParameter("@nume_hhcc", DbType.String, ParameterDirection.Input, request.historyNumber);
+                    reader = db.GetDataReader();
+
+                    while (reader.Read())
+                    {
+                        medicFilePdfList.Add(Fill_MedicFilePDF_Response(reader));
+                    }
+                    dataResponse.data = medicFilePdfList;
+                    reader.Close();
+
+                    if (dataResponse.data.Count > 0)
+                    {
+                        dataResponse.response.status = Constants.RESULT_OK;
+                        dataResponse.response.message = "Existen archivos pdf para esta ficha";
+                    }
+                    else
+                    {
+                        dataResponse.response.status = Constants.RESULT_EMPTY;
+                        dataResponse.response.message = "No existen archivos pdf para esta ficha";
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (reader != null && !reader.IsClosed) reader.Close();
+                    dataResponse.response.status = Constants.RESULT_FAILED;
+                    dataResponse.response.message = e.Message;
+                }
+            return dataResponse;
+        }
+        #region
+        public MedicFilePDFResponse Fill_MedicFilePDF_Response(IDataReader reader)
+        {
+            MedicFilePDFResponse medicFilePdfResponse = new MedicFilePDFResponse();
+            int index;
+            index = reader.GetOrdinal("nume_hhcc");
+            medicFilePdfResponse.nume_hhcc = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("tipoevaluacion");
+            medicFilePdfResponse.tipoevaluacion = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("nomb_operacion");
+            medicFilePdfResponse.operacion = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("nomb_lugar");
+            medicFilePdfResponse.lugar = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("departamentoFicha");
+            medicFilePdfResponse.departamentolugar = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("provinciaFicha");
+            medicFilePdfResponse.provincialugar = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("distritoFicha");
+            medicFilePdfResponse.distritolugar = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+
+            index = reader.GetOrdinal("razonsocial");
+            medicFilePdfResponse.razonsocial = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("actividadeconomica");
+            medicFilePdfResponse.actividadeconomica = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("departamentoEmpresa");
+            medicFilePdfResponse.departamentoemp = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("provinciaEmpresa");
+            medicFilePdfResponse.provinciaemp = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("distritoEmpresa");
+            medicFilePdfResponse.distritoemp = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+
+            index = reader.GetOrdinal("nombreTrabajador");
+            medicFilePdfResponse.nombretrab = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diaNac");
+            medicFilePdfResponse.dianac = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("mesNac");
+            medicFilePdfResponse.mesnac = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("anioNac");
+            medicFilePdfResponse.anionac = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("edad");
+            medicFilePdfResponse.edad = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("documentoidentidad");
+            medicFilePdfResponse.docidentidad = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("estadocivil");
+            medicFilePdfResponse.estadocivil = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("domiciliofiscal");
+            medicFilePdfResponse.domicilio = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("departamentoTrabajador");
+            medicFilePdfResponse.departamentotrab = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("provinciaTrabajador");
+            medicFilePdfResponse.provinciatrab = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("distritoTrabajador");
+            medicFilePdfResponse.distritotrab = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("residenciatrabajo");
+            medicFilePdfResponse.residencia = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("tiemporesidencia");
+            medicFilePdfResponse.tiemporesidencia = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("id_tiposeguro");
+            medicFilePdfResponse.nomb_seguro = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("correo");
+            medicFilePdfResponse.correo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("telefono");
+            medicFilePdfResponse.telefono = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("gradoinstruccion");
+            medicFilePdfResponse.gradoinstruccion = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("nrohijos");
+            medicFilePdfResponse.nrohijos = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("nrodependientes");
+            medicFilePdfResponse.nrodependientes = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("puestotrabajo");
+            medicFilePdfResponse.puestotrabajo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_alergias");
+            medicFilePdfResponse.ap_alergias = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_diabetes");
+            medicFilePdfResponse.ap_diabetes = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_ditbc");
+            medicFilePdfResponse.ap_ditbc = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_hepatitis");
+            medicFilePdfResponse.ap_hepatitis = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_asma");
+            medicFilePdfResponse.ap_asma = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_hta");
+            medicFilePdfResponse.ap_hta = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_ets");
+            medicFilePdfResponse.ap_ets = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_tifoidea");
+            medicFilePdfResponse.ap_tifoidea = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_bronquitis");
+            medicFilePdfResponse.ap_bronquitis = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_neoplasias");
+            medicFilePdfResponse.ap_neoplasias = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_convulsiones");
+            medicFilePdfResponse.ap_convulsiones = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_otro");
+            medicFilePdfResponse.ap_otro = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_quemaduras");
+            medicFilePdfResponse.ap_quemaduras = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_cirugias");
+            medicFilePdfResponse.ap_cirugias = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_intoxicaciones");
+            medicFilePdfResponse.ap_intoxicaciones = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_alcohol_tipo");
+            medicFilePdfResponse.ap_alcohol_tipo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_alcohol_cantidad");
+            medicFilePdfResponse.ap_alcohol_cantidad = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_alcohol_frecuencia");
+            medicFilePdfResponse.ap_alcohol_frecuencia = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_tabaco_tipo");
+            medicFilePdfResponse.ap_tabaco_tipo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_tabaco_cantidad");
+            medicFilePdfResponse.ap_tabaco_cantidad = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_tabaco_frecuencia");
+            medicFilePdfResponse.ap_tabaco_frecuencia = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_medicamentos_tipo");
+            medicFilePdfResponse.ap_medicamentos_tipo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_medicamentos_cantidad");
+            medicFilePdfResponse.ap_medicamentos_cantidad = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_medicamentos_frecuencia");
+            medicFilePdfResponse.ap_medicamentos_frecuencia = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_otros_tipo");
+            medicFilePdfResponse.ap_otros_tipo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_otros_cantidad");
+            medicFilePdfResponse.ap_otros_cantidad = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ap_otros_frecuencia");
+            medicFilePdfResponse.ap_otros_frecuencia = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("apf_padre");
+            medicFilePdfResponse.apf_padre = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("apf_madre");
+            medicFilePdfResponse.apf_madre = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("apf_hermanos");
+            medicFilePdfResponse.apf_hermanos = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("apf_esposo_a");
+            medicFilePdfResponse.apf_esposo_a = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("apf_hijosvivos");
+            medicFilePdfResponse.apf_hijosvivos = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("apf_hijosfallecidos");
+            medicFilePdfResponse.apf_hijosfallecidos = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_enfermedadaccidente1");
+            medicFilePdfResponse.al_enfermedadaccidente1 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_asociadotrabajo1");
+            medicFilePdfResponse.al_asociadotrabajo1 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_anio1");
+            medicFilePdfResponse.al_asociadotrabajo1 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_diasdescanso1");
+            medicFilePdfResponse.al_diasdescanso1 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_enfermedadaccidente2");
+            medicFilePdfResponse.al_enfermedadaccidente2 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_asociadotrabajo2");
+            medicFilePdfResponse.al_asociadotrabajo2 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_anio2");
+            medicFilePdfResponse.al_anio2 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_diasdescanso2");
+            medicFilePdfResponse.al_diasdescanso2 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_enfermedadaccidente3");
+            medicFilePdfResponse.al_enfermedadaccidente3 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_asociadotrabajo3");
+            medicFilePdfResponse.al_asociadotrabajo3 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_anio3");
+            medicFilePdfResponse.al_anio3 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("al_diasdescanso3");
+            medicFilePdfResponse.al_diasdescanso3 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("anamnesis");
+            medicFilePdfResponse.anamnesis = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ec_tallamts");
+            medicFilePdfResponse.ec_talla = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ec_pesokg");
+            medicFilePdfResponse.ec_peso = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ec_imckgml2");
+            medicFilePdfResponse.ec_imc = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ec_perimetroabdominal");
+            medicFilePdfResponse.ec_abdominal = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ec_fresp");
+            medicFilePdfResponse.ec_fresp = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ec_fcard");
+            medicFilePdfResponse.ec_fcard = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ec_pa");
+            medicFilePdfResponse.ec_pa = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ec_temperatura");
+            medicFilePdfResponse.ec_temperatura = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ec_ectoscopia");
+            medicFilePdfResponse.ec_estoscopia = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ec_estadomental");
+            medicFilePdfResponse.ec_estadomental = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_piel_sinhallazgo");
+            medicFilePdfResponse.pielsinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_piel_hallazgo");
+            medicFilePdfResponse.pielhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cabello_sinhallazgo");
+            medicFilePdfResponse.bocasinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cabello_hallazgo");
+            medicFilePdfResponse.cabellohallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_lejos_od");
+            medicFilePdfResponse.ojoder1_1 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_lejos_oi");
+            medicFilePdfResponse.ojoizq1_1 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_lejoscorrectores_od");
+            medicFilePdfResponse.ojoder1_2 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_lejoscorrectores_oi");
+            medicFilePdfResponse.ojoizq1_2 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_cerca_od");
+            medicFilePdfResponse.ojoder2_1 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_cerca_oi");
+            medicFilePdfResponse.ojoizq2_1 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_cercacorrecores_od");
+            medicFilePdfResponse.ojoizq2_2 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_cercacorrecores_oi");
+            medicFilePdfResponse.ojoizq2_2 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_fondo");
+            medicFilePdfResponse.ojofondo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_visoncolores");
+            medicFilePdfResponse.ojocolor = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_ojo_visionprofundidad");
+            medicFilePdfResponse.ojoprofundidad = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_oidos_sinhallazgo");
+            medicFilePdfResponse.oidossinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_oidos_hallazgo");
+            medicFilePdfResponse.oidoshallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_nariz_sinhallazgo");
+            medicFilePdfResponse.narizsinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_nariz_hallazgo");
+            medicFilePdfResponse.narizhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_boca_sinhallazgo");
+            medicFilePdfResponse.bocasinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_boca_hallazgo");
+            medicFilePdfResponse.bocahallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_faringe_sinhallazgo");
+            medicFilePdfResponse.faringesinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_faringe_hallazgo");
+            medicFilePdfResponse.faringehallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cuello_sinhallazgo");
+            medicFilePdfResponse.cuellosinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cuello_hallazgo");
+            medicFilePdfResponse.cuellohallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_aprespiratorio_sinhallazgo");
+            medicFilePdfResponse.respiratoriosinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_aprespiratorio_hallazgo");
+            medicFilePdfResponse.respiratoriohallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_apcardiovascular_sinhallazgo");
+            medicFilePdfResponse.cardiovascularsinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_apcardiovascular_hallazgo");
+            medicFilePdfResponse.cardiovascularhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_apdigestivo_sinhallazgo");
+            medicFilePdfResponse.digestivosinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_apdigestivo_hallazgo");
+            medicFilePdfResponse.digestivohallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_aplocomotor_sinhallazgo");
+            medicFilePdfResponse.locomotorsinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_aplocomotor_hallazgo");
+            medicFilePdfResponse.locomotorhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_marcha_sinhallazgo");
+            medicFilePdfResponse.marchasinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_marcha_hallazgo");
+            medicFilePdfResponse.marchahallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_columna_sinhallazgo");
+            medicFilePdfResponse.columnasinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_columna_hallazgo");
+            medicFilePdfResponse.columnahallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_miembsup_sinhallazgo");
+            medicFilePdfResponse.miembrosupsinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_miembsup_hallazgo");
+            medicFilePdfResponse.miembrosuphallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_miembinf_sinhallazgo");
+            medicFilePdfResponse.miembroinfsinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_miembinf_hallazgo");
+            medicFilePdfResponse.miembroinfhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_sistlinfat_sinhallazgo");
+            medicFilePdfResponse.sistemalinfsinhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_sistlinfat_hallazgo");
+            medicFilePdfResponse.sistemalinfhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_sistnerv_sinhallazgo");
+            medicFilePdfResponse.sistemalinfhallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_sistnerv_hallazgo");
+            medicFilePdfResponse.sistemanerviosohallazgo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("conclusionevalpsicologica");
+            medicFilePdfResponse.conclusionevalpsicologica = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("conclusionradiografica");
+            medicFilePdfResponse.conclusionradiografica = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("hallazgopatologico");
+            medicFilePdfResponse.hallazgopatologico = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("conclusionaudiometrica");
+            medicFilePdfResponse.conclusionaudiometrica = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("conclusioespirometrica");
+            medicFilePdfResponse.conclusioespirometrica = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("conclusioneagudezavisual");
+            medicFilePdfResponse.conclusioneagudezavisual = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("conclusionotros");
+            medicFilePdfResponse.conclusionotros = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedico1");
+            medicFilePdfResponse.diagnosticomedico1 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedicoval1");
+            medicFilePdfResponse.diagnosticomedicoval1 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedico2");
+            medicFilePdfResponse.diagnosticomedico2 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedicoval2");
+            medicFilePdfResponse.diagnosticomedicoval2 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedico3");
+            medicFilePdfResponse.diagnosticomedico3 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedicoval3");
+            medicFilePdfResponse.diagnosticomedicoval3 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedico4");
+            medicFilePdfResponse.diagnosticomedico4 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedicoval4");
+            medicFilePdfResponse.diagnosticomedicoval4 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedico5");
+            medicFilePdfResponse.diagnosticomedico5 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedicoval5");
+            medicFilePdfResponse.diagnosticomedicoval5 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedico6");
+            medicFilePdfResponse.diagnosticomedico6 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("diagnosticomedicoval6");
+            medicFilePdfResponse.diagnosticomedicoval6 = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("restricciones");
+            medicFilePdfResponse.restricciones = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("recomendaciones");
+            medicFilePdfResponse.recomendaciones = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+
+            return medicFilePdfResponse;
+        }
+        #endregion
+        //showMedicFilePDF
+
         #region Mapping
         private GenericResponse Fill_GenericResponse(IDataReader reader)
         {

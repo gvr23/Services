@@ -41,5 +41,12 @@ namespace WcfFichaMedica
          ResponseFormat = WebMessageFormat.Json,
          UriTemplate = "getEvaluationsHeader")]
         DataResponse<List<EvaluationHeaderResponse>> getEvaluationsHeader(EvaluationHeaderRequest request);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+         RequestFormat = WebMessageFormat.Json,
+         ResponseFormat = WebMessageFormat.Json,
+         UriTemplate = "showMedicFilePDF")]
+        DataResponse<List<MedicFilePDFResponse>> showMedicFilePDF(MedicFilePDFRequest request);
     }
 }

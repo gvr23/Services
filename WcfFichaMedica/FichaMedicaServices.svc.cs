@@ -34,5 +34,10 @@ namespace WcfFichaMedica
         {
             return new BL_Ficha().getEvaluationsHeader(request);
         }
+
+        public DataResponse<List<MedicFilePDFResponse>> showMedicFilePDF(MedicFilePDFRequest request)
+        {
+            return new BL_Ficha().showMedicFilePDF(request);
+        }
     }
 }

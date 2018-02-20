@@ -30,5 +30,10 @@ namespace BL
         {
             return new DA_Ficha().getEvaluationsHeader(request);
         }
+
+        public DataResponse<List<MedicFilePDFResponse>> showMedicFilePDF(MedicFilePDFRequest request)
+        {
+            return new DA_Ficha().showMedicFilePDF(request);
+        }
     }
 }
