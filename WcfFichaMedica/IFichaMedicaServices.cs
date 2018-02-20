@@ -32,7 +32,14 @@ namespace WcfFichaMedica
         [WebInvoke(Method = "POST",
          RequestFormat = WebMessageFormat.Json,
          ResponseFormat = WebMessageFormat.Json,
-         UriTemplate = "getMedicalFiles")]
-        DataResponse<List<MedicalFileHeaderResponse>> getMedicalFiles(MedicalFileRequest request);
+         UriTemplate = "getMedicalFilesHeader")]
+        DataResponse<List<MedicalFileHeaderResponse>> getMedicalFilesHeader(MedicalFileHeaderRequest request);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+         RequestFormat = WebMessageFormat.Json,
+         ResponseFormat = WebMessageFormat.Json,
+         UriTemplate = "getEvaluationsHeader")]
+        DataResponse<List<EvaluationHeaderResponse>> getEvaluationsHeader(EvaluationHeaderRequest request);
     }
 }

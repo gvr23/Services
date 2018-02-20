@@ -15,6 +15,7 @@ namespace DA
 {
     public class DA_Ficha
     {
+        //login
         public DataResponse<LoginResponse> login(LoginRequest request)
         {
             DataResponse<LoginResponse> dataResponse = new DataResponse<LoginResponse>();
@@ -72,7 +73,9 @@ namespace DA
             return loginResponse;
         }
         #endregion
+        //login
 
+        //employees
         public DataResponse<List<EmployeeResponse>> getEmployees(EmployeeRequest request)
         {
             DataResponse<List<EmployeeResponse>> dataResponse = new DataResponse<List<EmployeeResponse>>();
@@ -138,8 +141,10 @@ namespace DA
             return employeeResponse;
         }
         #endregion
+        //employees
 
-        public DataResponse<List<MedicalFileHeaderResponse>> getMedicalFiles(MedicalFileRequest request)
+        //medicalFilesHeader
+        public DataResponse<List<MedicalFileHeaderResponse>> getMedicalFilesHeader(MedicalFileHeaderRequest request)
         {
             DataResponse<List<MedicalFileHeaderResponse>> dataResponse = new DataResponse<List<MedicalFileHeaderResponse>>();
             dataResponse.response = new GenericResponse();
@@ -157,9 +162,9 @@ namespace DA
                     {
                         medicalFileList.Add(Fill_MedicalFileHeader_Response(reader));
                     }
+                    dataResponse.data = medicalFileList;
                     reader.Close();
 
-                    dataResponse.data = medicalFileList;
                     if (dataResponse.data.Count > 0)
                     {
                         dataResponse.response.status = Constants.RESULT_OK;
@@ -204,7 +209,67 @@ namespace DA
             return medicalFileHeaderResponse;
         }
         #endregion
+        //medicalFilesHeader
 
+        //evaluationsHeader
+        public DataResponse<List<EvaluationHeaderResponse>> getEvaluationsHeader(EvaluationHeaderRequest request)
+        {
+            DataResponse <List<EvaluationHeaderResponse>> dataResponse = new DataResponse<List<EvaluationHeaderResponse>>();
+            dataResponse.response = new GenericResponse();
+            List<EvaluationHeaderResponse> evaluationsHeaderList = new List<EvaluationHeaderResponse>();
+            IDataReader reader = null;
+
+            using (DataBase db = new DataBase())
+                try
+                {
+                    db.ProcedureName = "FM_getEvaluationsHeader";
+                    db.AddParameter("@idMedicFile", DbType.Int64, ParameterDirection.Input, request.idMedicFile);
+                    reader = db.GetDataReader();
+
+                    while (reader.Read())
+                    {
+                        evaluationsHeaderList.Add(Fill_EvaluationHeader_Response(reader));
+                    }
+                    dataResponse.data = evaluationsHeaderList;
+                    reader.Close();
+                    if (dataResponse.data.Count > 0)
+                    {
+                        dataResponse.response.status = Constants.RESULT_OK;
+                        dataResponse.response.message = "Existen evaluaciones para esta ficha";
+                    }
+                    else
+                    {
+                        dataResponse.response.status = Constants.RESULT_EMPTY;
+                        dataResponse.response.message = "No existen evaluaciones para esta ficha";
+
+                    }
+                }
+                catch(Exception e)
+                {
+                    if (reader != null && !reader.IsClosed) reader.Close();
+                    dataResponse.response.status = Constants.RESULT_FAILED;
+                    dataResponse.response.message = e.Message;
+                }
+            return dataResponse;
+        }
+        #region
+        private EvaluationHeaderResponse Fill_EvaluationHeader_Response(IDataReader reader)
+        {
+            EvaluationHeaderResponse evaluationHeaderResponse = new EvaluationHeaderResponse();
+            int index;
+            index = reader.GetOrdinal("evaluationId");
+            evaluationHeaderResponse.evaluationId = reader.IsDBNull(index) ? -1 : reader.GetInt64(index);
+            index = reader.GetOrdinal("creationDate");
+            evaluationHeaderResponse.creationDate = reader.IsDBNull(index) ? DateTime.MinValue : reader.GetDateTime(index);
+            index = reader.GetOrdinal("modifiedDate");
+            evaluationHeaderResponse.modifiedDate = reader.IsDBNull(index) ? DateTime.MinValue : reader.GetDateTime(index);
+            index = reader.GetOrdinal("evaluationStatus");
+            evaluationHeaderResponse.evaluationStatus = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+
+            return evaluationHeaderResponse;
+        }
+        #endregion
+        //evaluationsHeader
 
         #region Mapping
         private GenericResponse Fill_GenericResponse(IDataReader reader)

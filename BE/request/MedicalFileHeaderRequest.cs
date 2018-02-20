@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BE.request
 {
     [DataContract]
-    public class MedicalFileRequest
+    public class MedicalFileHeaderRequest
     {
         [DataMember]
         public String dniNumber { get; set; }

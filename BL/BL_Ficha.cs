@@ -21,9 +21,14 @@ namespace BL
             return new DA_Ficha().getEmployees(request);
         }
 
-        public DataResponse<List<MedicalFileHeaderResponse>> getMedicalFiles(MedicalFileRequest request)
+        public DataResponse<List<MedicalFileHeaderResponse>> getMedicalFilesHeader(MedicalFileHeaderRequest request)
         {
-            return new DA_Ficha().getMedicalFiles(request);
+            return new DA_Ficha().getMedicalFilesHeader(request);
+        }
+
+        public DataResponse<List<EvaluationHeaderResponse>> getEvaluationsHeader(EvaluationHeaderRequest request)
+        {
+            return new DA_Ficha().getEvaluationsHeader(request);
         }
     }
 }

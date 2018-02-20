@@ -44,12 +44,14 @@
     <Compile Include="entities\GenericResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="request\EmployeeRequest.cs" />
+    <Compile Include="request\EvaluationHeaderRequest.cs" />
     <Compile Include="request\LoginRequest.cs" />
-    <Compile Include="request\MedicalFileRequest.cs" />
+    <Compile Include="request\MedicalFileHeaderRequest.cs" />
     <Compile Include="response\DataResponse.cs" />
     <Compile Include="response\EmployeeResponse.cs" />
+    <Compile Include="response\EvaluationHeaderResponse.cs" />
     <Compile Include="response\LoginResponse.cs" />
-    <Compile Include="response\MedicalFileResponse.cs" />
+    <Compile Include="response\MedicalFileHeaderResponse.cs" />
     <Compile Include="utils\Constants.cs" />
   </ItemGroup>
   <ItemGroup />

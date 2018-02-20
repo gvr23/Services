@@ -25,9 +25,14 @@ namespace WcfFichaMedica
             return new BL_Ficha().getEmployees(request);   
         }
 
-        public DataResponse<List<MedicalFileHeaderResponse>> getMedicalFiles(MedicalFileRequest request)
+        public DataResponse<List<MedicalFileHeaderResponse>> getMedicalFilesHeader(MedicalFileHeaderRequest request)
         {
-            return new BL_Ficha().getMedicalFiles(request);
+            return new BL_Ficha().getMedicalFilesHeader(request);
+        }
+
+        public DataResponse<List<EvaluationHeaderResponse>> getEvaluationsHeader(EvaluationHeaderRequest request)
+        {
+            return new BL_Ficha().getEvaluationsHeader(request);
         }
     }
 }
