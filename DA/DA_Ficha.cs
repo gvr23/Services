@@ -271,7 +271,7 @@ namespace DA
         #endregion
         //evaluationsHeader
 
-        //showMedicFilePDF
+        //showMedicFileDetail
         public DataResponse<List<MedicFileResponse>> showMedicFileDetail(MedicFileRequest request)
         {
             DataResponse<List<MedicFileResponse>> dataResponse = new DataResponse<List<MedicFileResponse>>();
@@ -632,7 +632,7 @@ namespace DA
             return medicFilePdfResponse;
         }
         #endregion
-        //showMedicFilePDF
+        //showMedicFileDetail
 
         //showOsteomuscularAnalysis
         public DataResponse<List<OsteoMuscularAnalysisResponse>> showOsteoMuscularAnalysis(OsteoMuscularAnalysisRequest request)
