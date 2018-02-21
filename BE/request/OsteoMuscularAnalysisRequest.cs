@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BE.request
 {
     [DataContract]
-    public class MedicFilePDFRequest
+    public class OsteoMuscularAnalysisRequest
     {
         [DataMember]
         public String historyNumber { get; set; }

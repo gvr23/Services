@@ -31,9 +31,14 @@ namespace BL
             return new DA_Ficha().getEvaluationsHeader(request);
         }
 
-        public DataResponse<List<MedicFilePDFResponse>> showMedicFilePDF(MedicFilePDFRequest request)
+        public DataResponse<List<MedicFileResponse>> showMedicFileDetail(MedicFileRequest request)
         {
-            return new DA_Ficha().showMedicFilePDF(request);
+            return new DA_Ficha().showMedicFileDetail(request);
+        }
+
+        public DataResponse<List<OsteoMuscularAnalysisResponse>> showOsteoMuscularAnalysis(OsteoMuscularAnalysisRequest request)
+        {
+            return new DA_Ficha().showOsteoMuscularAnalysis(request);
         }
     }
 }

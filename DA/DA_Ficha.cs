@@ -272,36 +272,36 @@ namespace DA
         //evaluationsHeader
 
         //showMedicFilePDF
-        public DataResponse<List<MedicFilePDFResponse>> showMedicFilePDF(MedicFilePDFRequest request)
+        public DataResponse<List<MedicFileResponse>> showMedicFileDetail(MedicFileRequest request)
         {
-            DataResponse<List<MedicFilePDFResponse>> dataResponse = new DataResponse<List<MedicFilePDFResponse>>();
+            DataResponse<List<MedicFileResponse>> dataResponse = new DataResponse<List<MedicFileResponse>>();
             dataResponse.response = new GenericResponse();
-            List<MedicFilePDFResponse> medicFilePdfList = new List<MedicFilePDFResponse>();
+            List<MedicFileResponse> medicFilefList = new List<MedicFileResponse>();
             IDataReader reader = null;
 
             using (DataBase db = new DataBase())
                 try
                 {
-                    db.ProcedureName = "FM_ObtieneDatosFichaMedica_PDF";
+                    db.ProcedureName = "FM_MedicFilesDetail";
                     db.AddParameter("@nume_hhcc", DbType.String, ParameterDirection.Input, request.historyNumber);
                     reader = db.GetDataReader();
 
                     while (reader.Read())
                     {
-                        medicFilePdfList.Add(Fill_MedicFilePDF_Response(reader));
+                        medicFilefList.Add(Fill_MedicFile_Response(reader));
                     }
-                    dataResponse.data = medicFilePdfList;
+                    dataResponse.data = medicFilefList;
                     reader.Close();
 
                     if (dataResponse.data.Count > 0)
                     {
                         dataResponse.response.status = Constants.RESULT_OK;
-                        dataResponse.response.message = "Existen archivos pdf para esta ficha";
+                        dataResponse.response.message = "Existen archivos para esta ficha";
                     }
                     else
                     {
                         dataResponse.response.status = Constants.RESULT_EMPTY;
-                        dataResponse.response.message = "No existen archivos pdf para esta ficha";
+                        dataResponse.response.message = "No existen archivos para esta ficha";
 
                     }
                 }
@@ -314,9 +314,9 @@ namespace DA
             return dataResponse;
         }
         #region
-        public MedicFilePDFResponse Fill_MedicFilePDF_Response(IDataReader reader)
+        public MedicFileResponse Fill_MedicFile_Response(IDataReader reader)
         {
-            MedicFilePDFResponse medicFilePdfResponse = new MedicFilePDFResponse();
+            MedicFileResponse medicFilePdfResponse = new MedicFileResponse();
             int index;
             index = reader.GetOrdinal("nume_hhcc");
             medicFilePdfResponse.nume_hhcc = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
@@ -633,6 +633,161 @@ namespace DA
         }
         #endregion
         //showMedicFilePDF
+
+        //showOsteomuscularAnalysis
+        public DataResponse<List<OsteoMuscularAnalysisResponse>> showOsteoMuscularAnalysis(OsteoMuscularAnalysisRequest request)
+        {
+            DataResponse<List<OsteoMuscularAnalysisResponse>> dataResponse = new DataResponse<List<OsteoMuscularAnalysisResponse>>();
+            dataResponse.response = new GenericResponse();
+            List<OsteoMuscularAnalysisResponse> osteoMuscularAnalysisList = new List<OsteoMuscularAnalysisResponse>();
+            IDataReader reader = null;
+
+            using (DataBase db = new DataBase())
+                try
+                {
+                    db.ProcedureName = "FM_OsteoMuscularAnalysis";
+                    db.AddParameter("@nume_hhcc", DbType.String, ParameterDirection.Input, request.historyNumber);
+                    reader = db.GetDataReader();
+
+                    while (reader.Read())
+                    {
+                        osteoMuscularAnalysisList.Add(Fill_OsteoMuscularAnalasysis(reader));
+                    }
+                    dataResponse.data = osteoMuscularAnalysisList;
+                    reader.Close();
+
+                    if (dataResponse.data.Count > 0)
+                    {
+                        dataResponse.response.status = Constants.RESULT_OK;
+                        dataResponse.response.message = "Existen examenes osteo musculares para esta ficha";
+                    }
+                    else
+                    {
+                        dataResponse.response.status = Constants.RESULT_EMPTY;
+                        dataResponse.response.message = "No existen examenes osteo musculares para esta ficha";
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (reader != null && !reader.IsClosed) reader.Close();
+                    dataResponse.response.status = Constants.RESULT_FAILED;
+                    dataResponse.response.message = e.Message;
+                }
+           
+            return dataResponse;
+        }
+        private OsteoMuscularAnalysisResponse Fill_OsteoMuscularAnalasysis(IDataReader reader)
+        {
+            OsteoMuscularAnalysisResponse osteoMuscularAnalysis = new OsteoMuscularAnalysisResponse();
+            int index;
+
+            index = reader.GetOrdinal("nume_hhcc");
+            osteoMuscularAnalysis.nume_hhcc = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("nombreTrabajador");
+            osteoMuscularAnalysis.nombreTrabajador = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ps_molestiaspiernaspies");
+            osteoMuscularAnalysis.ps_molestiaspiernaspies = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ps_molestiashombroderecho");
+            osteoMuscularAnalysis.ps_molestiashombroderecho = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ps_molestiasmuslos");
+            osteoMuscularAnalysis.ps_molestiasmuslos = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ps_molestiascuello");
+            osteoMuscularAnalysis.ps_molestiascuello = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ps_molestiasnalgas");
+            osteoMuscularAnalysis.ps_molestiasnalgas = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ps_tirantescosquilleomanos");
+            osteoMuscularAnalysis.ps_tirantescosquilleomanos = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ps_molestiaslumbares");
+            osteoMuscularAnalysis.ps_molestiaslumbares = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ps_cordinacionfuerzamanos");
+            osteoMuscularAnalysis.ps_cordinacionfuerzamanos = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ps_doloresmanos");
+            osteoMuscularAnalysis.ps_doloresmanos = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("pp_molestiaslumbosacras");
+            osteoMuscularAnalysis.pp_molestiaslumbosacras = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("pp_molestiaspiernas");
+            osteoMuscularAnalysis.pp_molestiaspiernas = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("pp_molestiastobillos");
+            osteoMuscularAnalysis.pp_molestiastobillos = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("pp_molestiasmuslos");
+            osteoMuscularAnalysis.pp_molestiasmuslos = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("pp_molestiasrodilla");
+            osteoMuscularAnalysis.pp_molestiasrodilla = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("pp_molestiasdorsalesbaja");
+            osteoMuscularAnalysis.pp_molestiasdorsalesbaja = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("pp_molestiaspies");
+            osteoMuscularAnalysis.pp_molestiaspies = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("pp_observaciones");
+            osteoMuscularAnalysis.pp_observaciones = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("eg_hombro");
+            osteoMuscularAnalysis.eg_hombro = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("eg_codo");
+            osteoMuscularAnalysis.eg_codo = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("eg_munieca");
+            osteoMuscularAnalysis.eg_munieca = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("eg_cadera");
+            osteoMuscularAnalysis.eg_cadera = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("eg_rodilla");
+            osteoMuscularAnalysis.eg_rodilla = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("eg_columnaVertebral");
+            osteoMuscularAnalysis.eg_columnaVertebral = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("eg_columnaCervical");
+            osteoMuscularAnalysis.eg_columnaCervical = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("eg_columnaDorsal");
+            osteoMuscularAnalysis.eg_columnaDorsal = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ma_cc_flexioextension");
+            osteoMuscularAnalysis.ma_cc_flexioextension = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ma_cc_inclinacion");
+            osteoMuscularAnalysis.ma_cc_inclinacion = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ma_cc_rotacion");
+            osteoMuscularAnalysis.ma_cc_rotacion = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ma_cd_flexion");
+            osteoMuscularAnalysis.ma_cd_flexion = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ma_cd_rotacion");
+            osteoMuscularAnalysis.ma_cd_rotacion = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ma_cl_extensionflexion");
+            osteoMuscularAnalysis.ma_cl_extensionflexion = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ma_cl_inclinacion");
+            osteoMuscularAnalysis.ma_cl_inclinacion = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cv_dorsalnormal");
+            osteoMuscularAnalysis.ef_cv_dorsalnormal = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cv_dorsalconcavidadderecha");
+            osteoMuscularAnalysis.ef_cv_dorsalconcavidadderecha = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cv_dorsalconcavidadizquierda");
+            osteoMuscularAnalysis.ef_cv_dorsalconcavidadizquierda = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cv_lumbarnormal");
+            osteoMuscularAnalysis.ef_cv_lumbarnormal = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cv_lumbarconcavidadderecha");
+            osteoMuscularAnalysis.ef_cv_lumbarconcavidadderecha = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cv_lumbarconcavidadizquierda");
+            osteoMuscularAnalysis.ef_cv_lumbarconcavidadizquierda = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cvdap_cervicalnormal");
+            osteoMuscularAnalysis.ef_cvdap_cervicalnormal = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cvdap_cervicalconcavidadderecha");
+            osteoMuscularAnalysis.ef_cvdap_cervicalconcavidadderecha = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cvdap_cervicalconcavidadizquierda");
+            osteoMuscularAnalysis.ef_cvdap_cervicalconcavidadizquierda = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cvdap_dorsalnormal");
+            osteoMuscularAnalysis.ef_cvdap_dorsalnormal = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cvdap_dorsalconcavidadderecha");
+            osteoMuscularAnalysis.ef_cvdap_dorsalconcavidadderecha = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cvdap_dorsalconcavidadizquierda");
+            osteoMuscularAnalysis.ef_cvdap_dorsalconcavidadizquierda = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cvdap_lumbarnormal");
+            osteoMuscularAnalysis.ef_cvdap_lumbarnormal = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cvdap_lumbarconcavidadderecha");
+            osteoMuscularAnalysis.ef_cvdap_lumbarconcavidadderecha = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_cvdap_lumbarconcavidadizquierda");
+            osteoMuscularAnalysis.ef_cvdap_lumbarconcavidadizquierda = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_hallasgoosteomuscular");
+            osteoMuscularAnalysis.ef_hallasgoosteomuscular = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+            index = reader.GetOrdinal("ef_recomendaciones");
+            osteoMuscularAnalysis.ef_recomendaciones = reader.IsDBNull(index) ? String.Empty : reader.GetString(index);
+
+            return osteoMuscularAnalysis;
+        }
+        //showOsteomuscularAnalysis
 
         #region Mapping
         private GenericResponse Fill_GenericResponse(IDataReader reader)

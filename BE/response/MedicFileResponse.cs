@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BE.response
 {
     [DataContract]
-    public class MedicFilePDFResponse
+    public class MedicFileResponse
     {
         [DataMember(Order = 1)]
         public String nume_hhcc { get; set; }

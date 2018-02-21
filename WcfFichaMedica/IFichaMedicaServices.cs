@@ -46,7 +46,14 @@ namespace WcfFichaMedica
         [WebInvoke(Method = "POST",
          RequestFormat = WebMessageFormat.Json,
          ResponseFormat = WebMessageFormat.Json,
-         UriTemplate = "showMedicFilePDF")]
-        DataResponse<List<MedicFilePDFResponse>> showMedicFilePDF(MedicFilePDFRequest request);
+         UriTemplate = "showMedicFile")]
+        DataResponse<List<MedicFileResponse>> showMedicFileDetail(MedicFileRequest request);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+         RequestFormat = WebMessageFormat.Json,
+         ResponseFormat = WebMessageFormat.Json,
+         UriTemplate = "showOsteoMuscularAnalysis")]
+        DataResponse<List<OsteoMuscularAnalysisResponse>> showOsteoMuscularAnalysis(OsteoMuscularAnalysisRequest request);
     }
 }

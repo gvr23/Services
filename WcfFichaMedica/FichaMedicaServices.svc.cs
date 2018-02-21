@@ -35,9 +35,14 @@ namespace WcfFichaMedica
             return new BL_Ficha().getEvaluationsHeader(request);
         }
 
-        public DataResponse<List<MedicFilePDFResponse>> showMedicFilePDF(MedicFilePDFRequest request)
+        public DataResponse<List<MedicFileResponse>> showMedicFileDetail(MedicFileRequest request)
         {
-            return new BL_Ficha().showMedicFilePDF(request);
+            return new BL_Ficha().showMedicFileDetail(request);
+        }
+
+        public DataResponse<List<OsteoMuscularAnalysisResponse>> showOsteoMuscularAnalysis(OsteoMuscularAnalysisRequest request)
+        {
+            return new BL_Ficha().showOsteoMuscularAnalysis(request);
         }
     }
 }
